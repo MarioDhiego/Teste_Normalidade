@@ -9,10 +9,14 @@ library(DistributionTest)
 library(moments)
 library(nortest)
 library(DescTools)
+library(fBasics)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+#library(kableExtra)
 library(knitr)
+library(tinytex)
+library(Publish)
 ############################################################
 
 

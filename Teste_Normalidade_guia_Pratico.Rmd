@@ -1,5 +1,5 @@
 ---
-title: "**Testes de Aderência (goodness-of-fit) no R: um Guia Prático**"
+title: "**Testes de Aderência no R: um Guia Prático**"
 author:
 - name: Mário Diego Valente
 - name: Carlos Paixão
