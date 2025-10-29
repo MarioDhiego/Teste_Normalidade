@@ -22,9 +22,14 @@ library(rlecuyer)
 library(DT)
 library(irr)
 
+
+
+
+
+
 ################################################################################
 # Configurações
-NN <- 100  
+NN <- 2000  
 tamanhos_amostra <- seq(25, 30, 5)  
 
 ################################################################################
@@ -38,8 +43,9 @@ escopo <- expand.grid(
 # Simulação e cálculo dos testes estatísticos
 Resultados <- purrr::map2_dfr(escopo$tamanho_amostra, escopo$repeticao, function(tamanho_amostra, ii) {
   print(paste0("Simulando: Tamanho Amostra = ", tamanho_amostra, ", Repetição = ", ii))
-  x <- rbeta(tamanho_amostra, 2,5)
-  # x <- rnorm(tamanho_amostra, 0, 1)  # Gerar dados da distribuição normal
+  #x <- rbeta(tamanho_amostra, 2,5)
+  #x <- rnorm(tamanho_amostra, 0, 1)  # Gerar dados da distribuição normal
+  x <- rcauchy(tamanho_amostra, location = 0, scale = 1)
   tibble(
     Kolmogorov_Smirnov = ks.test(x, pnorm, mean(x), sd(x))$p.value,
     Jarque_Bera = JarqueBeraTest(x)$p.value,
@@ -57,7 +63,7 @@ Resultados <- purrr::map2_dfr(escopo$tamanho_amostra, escopo$repeticao, function
 })
 
 ################################################################################
-# Calcular a taxa geral de acertos 
+# Calcular a TAXA MÉDIA de Acertos 
 taxa_acertos <- Resultados %>%
   tidyr::pivot_longer(
     cols = c(Kolmogorov_Smirnov, 
@@ -125,7 +131,7 @@ DT::datatable(
 ################################################################################
 # Visualizar os Resultados em Gráficos
 
-# Comparação do erro tipo I (P-valor médio, mínimo e máximo)
+# Comparação do ERRO TIPO I (P-valor médio, mínimo e máximo)
 Resultados %>%
   tidyr::pivot_longer(
     cols = c(Kolmogorov_Smirnov, 
@@ -159,7 +165,7 @@ Resultados %>%
        color = "Testes")
 
 ################################################################################
-# Visualizar o poder do teste
+# Visualizar o PODER DO TESTE
 Resultados %>%
   tidyr::pivot_longer(
     cols = c(Kolmogorov_Smirnov, Jarque_Bera, Anderson_Darling, Lilliefors,
@@ -182,3 +188,7 @@ Resultados %>%
   labs(x = "Tamanho da Amostra (n)",
        y = "Poder do Teste",
        color = "Testes")
+################################################################################
+
+
+
